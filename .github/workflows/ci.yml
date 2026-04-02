@@ -167,28 +167,28 @@ jobs:
 
       - name: Start infrastructure
         run: |
-          docker-compose up -d mysql redis rabbitmq
+          docker compose up -d mysql redis rabbitmq
           echo "Waiting for infrastructure..."
           sleep 20
 
       - name: Check MySQL is healthy
         run: |
-          docker-compose exec -T mysql mysqladmin ping -h localhost -u root -pci_test_password
+          docker compose exec -T mysql mysqladmin ping -h localhost -u root -pci_test_password
           echo "MySQL is healthy"
 
       - name: Check Redis is healthy
         run: |
-          docker-compose exec -T redis redis-cli PING
+          docker compose exec -T redis redis-cli PING
           echo "Redis is healthy"
 
       - name: Check RabbitMQ is healthy
         run: |
-          docker-compose exec -T rabbitmq rabbitmq-diagnostics ping
+          docker compose exec -T rabbitmq rabbitmq-diagnostics ping
           echo "RabbitMQ is healthy"
 
       - name: Start application services
         run: |
-          docker-compose up -d auth-service wallet-service transaction-service api-gateway
+          docker compose up -d auth-service wallet-service transaction-service api-gateway
           echo "Waiting for services to start..."
           sleep 30
 
@@ -218,7 +218,7 @@ jobs:
 
       - name: Verify MySQL tables created
         run: |
-          docker-compose exec -T mysql mysql -u root -pci_test_password paybyte_test \
+          docker compose exec -T mysql mysql -u root -pci_test_password paybyte_test \
             -e "SHOW TABLES;" | grep -E "wallets|transactions|ledger_entries"
           echo "Database tables verified"
 
@@ -226,14 +226,14 @@ jobs:
         if: failure()
         run: |
           echo "=== AUTH SERVICE LOGS ==="
-          docker-compose logs auth-service
+          docker compose logs auth-service
           echo "=== WALLET SERVICE LOGS ==="
-          docker-compose logs wallet-service
+          docker compose logs wallet-service
           echo "=== TRANSACTION SERVICE LOGS ==="
-          docker-compose logs transaction-service
+          docker compose logs transaction-service
           echo "=== API GATEWAY LOGS ==="
-          docker-compose logs api-gateway
+          docker compose logs api-gateway
 
       - name: Cleanup
         if: always()
-        run: docker-compose down -v
+        run: docker compose down -v
