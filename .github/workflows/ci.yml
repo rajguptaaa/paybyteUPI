@@ -190,29 +190,29 @@ jobs:
         run: |
           docker compose up -d auth-service wallet-service transaction-service api-gateway
           echo "Waiting for services to start..."
-          sleep 30
+          sleep 45
 
       - name: Health check — auth-service
         run: |
-          curl --fail --retry 5 --retry-delay 5 \
+          curl --fail --retry 10 --retry-delay 10 --retry-connrefused \
             http://localhost:4001/health
           echo "auth-service healthy"
 
       - name: Health check — wallet-service
         run: |
-          curl --fail --retry 5 --retry-delay 5 \
+          curl --fail --retry 10 --retry-delay 10 --retry-connrefused \
             http://localhost:4002/health
           echo "wallet-service healthy"
 
       - name: Health check — transaction-service
         run: |
-          curl --fail --retry 5 --retry-delay 5 \
+          curl --fail --retry 10 --retry-delay 10 --retry-connrefused \
             http://localhost:4003/health
           echo "transaction-service healthy"
 
       - name: Health check — api-gateway
         run: |
-          curl --fail --retry 5 --retry-delay 5 \
+          curl --fail --retry 10 --retry-delay 10 --retry-connrefused \
             http://localhost:4000/health
           echo "api-gateway healthy"
 
