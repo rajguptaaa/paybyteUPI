@@ -20,8 +20,9 @@ services:
       - "4000:4000"
     env_file: .env
     depends_on:
-      - redis
-      - rabbitmq
+      - auth-service
+      - wallet-service
+      - transaction-service
     networks:
       - paybyte-net
     volumes:
