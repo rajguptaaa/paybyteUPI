@@ -135,6 +135,10 @@ jobs:
 
           MONGODB_URI=${{ secrets.MONGODB_URI_TEST }}
 
+          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+          GOOGLE_CALLBACK_URL=http://localhost/api/v1/auth/google/callback
+
           MYSQL_HOST=mysql
           MYSQL_PORT=3306
           MYSQL_USER=root
