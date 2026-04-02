@@ -28,31 +28,31 @@ jobs:
       - name: Validate auth-service
         working-directory: services/auth-service
         run: |
-          npm ci
+          npm install
           echo "auth-service dependencies OK"
 
       - name: Validate wallet-service
         working-directory: services/wallet-service
         run: |
-          npm ci
+          npm install
           echo "wallet-service dependencies OK"
 
       - name: Validate transaction-service
         working-directory: services/transaction-service
         run: |
-          npm ci
+          npm install
           echo "transaction-service dependencies OK"
 
       - name: Validate api-gateway
         working-directory: services/api-gateway
         run: |
-          npm ci
+          npm install
           echo "api-gateway dependencies OK"
 
       - name: Validate notification-service
         working-directory: services/notification-service
         run: |
-          npm ci
+          npm install
           echo "notification-service dependencies OK"
 
   # ─── Job 2: Docker build ───────────────────────────────────────
