@@ -48,4 +48,22 @@ router.post('/forgot-password/reset', authLimiter, resetPassword)
 router.post('/change-password/send', protect, sendChangePasswordOTP)
 router.post('/change-password/confirm', protect, changePassword)
 
+// Internal route — only callable by other services
+router.get('/internal/users/:userId', async (req, res) => {
+  try {
+    const secret = req.headers['x-internal-secret']
+    if (secret !== process.env.INTERNAL_SECRET) {
+      return res.status(403).json({ error: 'Forbidden' })
+    }
+
+    const User = require('../models/user.model')
+    const user = await User.findById(req.params.userId).select('email full_name upi_id')
+    if (!user) return res.status(404).json({ error: 'User not found' })
+
+    res.json({ success: true, data: { user } })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
 module.exports = router

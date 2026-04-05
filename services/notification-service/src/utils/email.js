@@ -114,7 +114,7 @@ async function sendCashbackEmail({ email, full_name, amount, transactionId }) {
           <div style="background: white; border-radius: 8px; padding: 24px; margin: 16px 0; text-align: center; border: 1px solid #eee;">
             <p style="margin: 0; color: #888; font-size: 13px;">Cashback credited</p>
             <p style="margin: 8px 0; color: #ff6b35; font-size: 36px; font-weight: bold;">₹${amount}</p>
-            <p style="margin: 0; color: #555; font-size: 13px;">Added to your PopUPI wallet</p>
+            <p style="margin: 0; color: #555; font-size: 13px;">Added to your PaybyteUPI wallet</p>
           </div>
           <p style="color: #888; font-size: 12px;">Transaction ID: ${transactionId}</p>
         </div>

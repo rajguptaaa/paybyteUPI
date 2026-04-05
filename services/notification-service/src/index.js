@@ -1,6 +1,7 @@
 require('dotenv').config()
 const { connectRabbitMQ } = require('../shared/rabbitmq')
 const { startConsumers } = require('./consumers/notification.consumers')
+const { connectRedis } = require('./config/redis')
 const logger = require('../shared/logger')
 
 async function waitFor(name, fn, retries = 10, delayMs = 3000) {
@@ -17,6 +18,7 @@ async function waitFor(name, fn, retries = 10, delayMs = 3000) {
 async function start() {
   try {
     await waitFor('RabbitMQ', connectRabbitMQ)
+    await waitFor('Redis', connectRedis)
     await startConsumers()
     logger.info('Notification service running')
   } catch (err) {

@@ -28,6 +28,10 @@ services:
     volumes:
       - ./services/api-gateway:/app
       - /app/node_modules
+    environment:
+      - AUTH_SERVICE_URL=http://auth-service:4001
+      - WALLET_SERVICE_URL=http://wallet-service:4002
+      - TRANSACTION_SERVICE_URL=http://transaction-service:4003
 
   auth-service:
     build: ./services/auth-service

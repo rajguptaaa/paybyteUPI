@@ -14,6 +14,9 @@ const logger = require('../shared/logger')
 
 const app = express()
 
+
+app.set('trust proxy', 1)
+
 // Security headers
 app.use(helmet({
   contentSecurityPolicy: false // disabled for GraphiQL UI
@@ -41,9 +44,22 @@ app.get('/health', (req, res) => {
 const proxyOptions = (target) => ({
   target,
   changeOrigin: true,
-  on: {
-    error: (err, req, res) => {
-      logger.error(`Proxy error to ${target}`, err.message)
+  proxyTimeout: 30000,
+
+  onProxyReq: (proxyReq, req, res) => {
+    if (req.body && Object.keys(req.body).length) {
+      const bodyData = JSON.stringify(req.body)
+
+      proxyReq.setHeader('Content-Type', 'application/json')
+      proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData))
+
+      proxyReq.write(bodyData)
+    }
+  },
+
+  onError: (err, req, res) => {
+    logger.error(`Proxy error to ${target}`, err.message)
+    if (!res.headersSent) {
       res.status(502).json({ error: 'Service unavailable' })
     }
   }
